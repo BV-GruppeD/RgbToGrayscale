@@ -1,4 +1,4 @@
-package com.bv_gruppe_d.imagej;
+package com.bv_gruppe_d.calculations;
 
 import java.util.Random;
 
@@ -7,7 +7,7 @@ import ij.process.ImageProcessor;
 
 public class Noise {
 	
-	public void addGausschenNoise(ImageProcessor ip, double s) {
+	public static void addGausschenNoise(ImageProcessor ip, double s) {
 		int w = ip.getWidth();
 		int h = ip.getHeight();
 		Random rnd = new Random();
@@ -20,7 +20,7 @@ public class Noise {
 		}
 	}
 	
-	public void addSaltAndPepperNoise(ImageProcessor ip, double percent) {
+	public static void addSaltAndPepperNoise(ImageProcessor ip, double percent) {
 		SaltAndPepper filter = new SaltAndPepper();
 		filter.add(ip, percent);
 	}
