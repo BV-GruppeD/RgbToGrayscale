@@ -104,7 +104,7 @@ public class MainDialog extends UserDialog {
 	
 	private JButton getStatisticsCalculationButton() {
 		JButton histogramCalculation = new JButton("Berechne Histogramm");
-		histogramCalculation.addActionListener(e -> new StatisticsDialog(ip).show(););
+		histogramCalculation.addActionListener(e -> new StatisticsDialog(ip).show());
 		return histogramCalculation;
 	}
 	
