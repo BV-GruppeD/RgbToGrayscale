@@ -73,13 +73,12 @@ public class MainDialog extends UserDialog {
 	}
 
 	private JButton getIntencityBasedConversionButton() {
-		JButton intencityBasedTransformation = new JButton("Intensitätsbasierte Konvertierung Test");
+		JButton intencityBasedTransformation = new JButton("Intensitätsbasierte Konvertierung");
 		intencityBasedTransformation.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Noise.addSaltAndPepperNoise(imageProcessor, 1);
-				dialog.repaint();
+				// TODO Add IncentiveTransformation
 			}
 		});
 		return intencityBasedTransformation;
@@ -147,13 +146,13 @@ public class MainDialog extends UserDialog {
 
 	private JButton getGausschenNoiseButton() {
 		JButton gausschenNoiceButton = new JButton("Gaussches Rauschen");
-		gausschenNoiceButton.addActionListener(e -> Noise.addGausschenNoise(imageProcessor, 1));
+		gausschenNoiceButton.addActionListener(e -> {Noise.addGausschenNoise(imageProcessor, 1); dialog.repaint();});
 		return gausschenNoiceButton;
 	}
 
 	private JButton getSaltAndPepperNoiceButton() {
 		JButton saltAndPepperNoiceButton = new JButton("Salt-And-Pepper Rauschen");
-		saltAndPepperNoiceButton.addActionListener(e -> Noise.addSaltAndPepperNoise(imageProcessor, 1));
+		saltAndPepperNoiceButton.addActionListener(e -> {Noise.addSaltAndPepperNoise(imageProcessor, 1); dialog.repaint();});
 		return saltAndPepperNoiceButton;
 	}
 	
