@@ -1,5 +1,6 @@
 package com.bv_gruppe_d.imagej.TransformImage;
 
+import ij.process.ByteProcessor;
 import ij.process.ImageProcessor;
 
 import java.util.Arrays;
@@ -8,7 +9,7 @@ import java.util.Arrays;
 
 public class IntensityBased implements TransformInterface {
 
-    private int[] pixels;
+    private int[] pixels,graypixels;
     private int c,r,g,b;
 
     @Override
@@ -26,8 +27,20 @@ public class IntensityBased implements TransformInterface {
 
             c = (int) (Math.sqrt(Math.pow(r,2) + Math.pow(g,2) + Math.pow(b,2)));
 
-            pixels[i] = ((c & 0xff) << 16) | ((c & 0xff) << 8) | c & 0xff;
+            c = c * 255 / 442;
 
+            pixels[i] = ((c & 0xff) << 16) | ((c & 0xff) << 8) | c & 0xff;
         }
+
+        /*ByteProcessor bp = new ByteProcessor(ip.getWidth(), ip.getHeight());
+
+        pixels = (int[]) bp.getPixels();
+
+        for (int i = 0; i < graypixels.length; i++) {
+            pixels[i] = graypixels[i];
+        }
+
+        bp.createImage();*/
+
     }
 }
