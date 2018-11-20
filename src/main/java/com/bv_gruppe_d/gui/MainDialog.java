@@ -1,8 +1,10 @@
 package com.bv_gruppe_d.gui;
 
 import java.awt.GridLayout;
-import java.awt.Label;
-import java.awt.Panel;
+import java.awt.Dialog.ModalityType;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,63 +12,74 @@ import javax.swing.JButton;
 
 import com.bv_gruppe_d.calculations.Noise;
 
+import ij.ImagePlus;
 import ij.gui.GenericDialog;
 import ij.process.ImageProcessor;
 
 public class MainDialog extends UserDialog {
 	
-	private ImageProcessor ip;
+	private ImageProcessor imageProcessor;
+	private GenericDialog dialog;
+	
 	
 	public MainDialog(ImageProcessor ip) {
 
 		dialog = new GenericDialog("Bildverarbeitung Projekt 03");
+		dialog.setLayout(new GridLayout(0, 3));
 		
-		Panel topLevelPanel = getMainDialogPanel();
-		dialog.add(topLevelPanel);
+		dialog.addImage(getImage(ip));
+		dialog.add(getMainDialogJPanel());
 	}
 
-	private Panel getMainDialogPanel() {
-		Panel topLevelPanel = new Panel();
-		topLevelPanel.setLayout(new GridLayout(3,1));		
-		
-		topLevelPanel.add(getConversionPanel());
-		topLevelPanel.add(getStatisticsPanel());
-		topLevelPanel.add(getNoicePanel());
-		
-		return topLevelPanel;
+	private ImagePlus getImage(ImageProcessor ip) {
+		ImagePlus image = new ImagePlus();
+		image.setImage(ip.createImage());
+		imageProcessor = image.getProcessor();
+		return image;
 	}
 
-	private Panel getConversionPanel() {
-		Panel conversionPanel = new Panel();
-		conversionPanel.setLayout(new GridLayout(2,1));
+	private JPanel getMainDialogJPanel() {
+		JPanel topLevelJPanel = new JPanel();
+		topLevelJPanel.setLayout(new GridLayout(3,1));		
 		
-		conversionPanel.add(getConversionHeader());
-		conversionPanel.add(getConversionButtons());
+		topLevelJPanel.add(getConversionJPanel());
+		topLevelJPanel.add(getStatisticsJPanel());
+		topLevelJPanel.add(getNoiceJPanel());
 		
-		return conversionPanel;
+		return topLevelJPanel;
 	}
 
-	private Label getConversionHeader() {
-		Label conversionHeader = new Label("Zu Grauwertbild konvertieren:");
-		conversionHeader.setAlignment(Label.CENTER);
+	private JPanel getConversionJPanel() {
+		JPanel conversionJPanel = new JPanel();
+		conversionJPanel.setLayout(new GridLayout(2,1));
+		
+		conversionJPanel.add(getConversionHeader());
+		conversionJPanel.add(getConversionButtons());
+		
+		return conversionJPanel;
+	}
+
+	private JLabel getConversionHeader() {
+		JLabel conversionHeader = new JLabel("Zu Grauwertbild konvertieren:");
+		conversionHeader.setHorizontalAlignment(JLabel.CENTER);
 		return conversionHeader;
 	}
 	
-	private Panel getConversionButtons() {
-		Panel conversionButtons = new Panel();
+	private JPanel getConversionButtons() {
+		JPanel conversionButtons = new JPanel();
 		conversionButtons.add(getIntencityBasedConversionButton());
 		conversionButtons.add(getCommonTransformationButton());
 		return conversionButtons;
 	}
 
 	private JButton getIntencityBasedConversionButton() {
-		JButton intencityBasedTransformation = new JButton("Intensitätsbasierte Konvertierung");
+		JButton intencityBasedTransformation = new JButton("Intensitätsbasierte Konvertierung Test");
 		intencityBasedTransformation.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Add IntencityBasedTransformation
-				
+				Noise.addSaltAndPepperNoise(imageProcessor, 1);
+				dialog.repaint();
 			}
 		});
 		return intencityBasedTransformation;
@@ -86,47 +99,47 @@ public class MainDialog extends UserDialog {
 	}
 	
 	
-	private Panel getStatisticsPanel() {
-		Panel statisticsPanel = new Panel();
-		statisticsPanel.setLayout(new GridLayout(2,1));
+	private JPanel getStatisticsJPanel() {
+		JPanel statisticsJPanel = new JPanel();
+		statisticsJPanel.setLayout(new GridLayout(2,1));
 		
-		statisticsPanel.add(getStatisticsHeader());
-		statisticsPanel.add(getStatisticsCalculationButton());
+		statisticsJPanel.add(getStatisticsHeader());
+		statisticsJPanel.add(getStatisticsCalculationButton());
 		
-		return statisticsPanel;
+		return statisticsJPanel;
 	}
 
-	private Label getStatisticsHeader() {
-		Label statisticsHeader = new Label("Statistik generieren:");
-		statisticsHeader.setAlignment(Label.CENTER);
+	private JLabel getStatisticsHeader() {
+		JLabel statisticsHeader = new JLabel("Statistik generieren:");
+		statisticsHeader.setHorizontalAlignment(JLabel.CENTER);
 		return statisticsHeader;
 	}
 	
 	private JButton getStatisticsCalculationButton() {
 		JButton histogramCalculation = new JButton("Berechne Histogramm");
-		histogramCalculation.addActionListener(e -> new StatisticsDialog(ip).show());
+		histogramCalculation.addActionListener(new CalculateStatisticsListener(imageProcessor));
 		return histogramCalculation;
 	}
 	
 
-	private Panel getNoicePanel() {
-		Panel noicePanel = new Panel();
-		noicePanel.setLayout(new GridLayout(2, 1));
+	private JPanel getNoiceJPanel() {
+		JPanel noiceJPanel = new JPanel();
+		noiceJPanel.setLayout(new GridLayout(2, 1));
 		
-		noicePanel.add(getNoiceHeader());
-		noicePanel.add(getNoiceButtons());
+		noiceJPanel.add(getNoiceHeader());
+		noiceJPanel.add(getNoiceButtons());
 		
-		return noicePanel;
+		return noiceJPanel;
 	}	
 
-	private Label getNoiceHeader() {
-		Label noiceHeader = new Label("Rauschen hinzufügen:");
-		noiceHeader.setAlignment(Label.CENTER);
+	private JLabel getNoiceHeader() {
+		JLabel noiceHeader = new JLabel("Rauschen hinzufügen:");
+		noiceHeader.setHorizontalAlignment(JLabel.CENTER);
 		return noiceHeader;
 	}
 
-	private Panel getNoiceButtons() {
-		Panel noiceButtons = new Panel();
+	private JPanel getNoiceButtons() {
+		JPanel noiceButtons = new JPanel();
 		noiceButtons.add(getGausschenNoiseButton());
 		noiceButtons.add(getSaltAndPepperNoiceButton());
 		return noiceButtons;
@@ -134,13 +147,18 @@ public class MainDialog extends UserDialog {
 
 	private JButton getGausschenNoiseButton() {
 		JButton gausschenNoiceButton = new JButton("Gaussches Rauschen");
-		gausschenNoiceButton.addActionListener(e -> Noise.addGausschenNoise(ip, 1));
+		gausschenNoiceButton.addActionListener(e -> Noise.addGausschenNoise(imageProcessor, 1));
 		return gausschenNoiceButton;
 	}
 
 	private JButton getSaltAndPepperNoiceButton() {
 		JButton saltAndPepperNoiceButton = new JButton("Salt-And-Pepper Rauschen");
-		saltAndPepperNoiceButton.addActionListener(e -> Noise.addSaltAndPepperNoise(ip, 1));
+		saltAndPepperNoiceButton.addActionListener(e -> Noise.addSaltAndPepperNoise(imageProcessor, 1));
 		return saltAndPepperNoiceButton;
+	}
+	
+	public void show() {
+		dialog.setModalityType(ModalityType.MODELESS);
+		dialog.showDialog();
 	}
 }
