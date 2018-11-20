@@ -3,96 +3,144 @@ package com.bv_gruppe_d.gui;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import com.bv_gruppe_d.calculations.Noise;
+
 import ij.gui.GenericDialog;
+import ij.process.ImageProcessor;
 
 public class MainDialog extends UserDialog {
 	
-	public MainDialog() {
+	private ImageProcessor ip;
+	
+	public MainDialog(ImageProcessor ip) {
 
 		dialog = new GenericDialog("Bildverarbeitung Projekt 03");
 		
-		Panel topLevelPanel = createMainDialogPanel();
+		Panel topLevelPanel = getMainDialogPanel();
 		dialog.add(topLevelPanel);
 	}
 
-	private Panel createMainDialogPanel() {
+	private Panel getMainDialogPanel() {
 		Panel topLevelPanel = new Panel();
 		topLevelPanel.setLayout(new GridLayout(3,1));		
 		
-		topLevelPanel.add(createConversionPanel());
-		topLevelPanel.add(createStatisticsPanel());
-		topLevelPanel.add(createNoicePanel());
+		topLevelPanel.add(getConversionPanel());
+		topLevelPanel.add(getStatisticsPanel());
+		topLevelPanel.add(getNoicePanel());
 		
 		return topLevelPanel;
 	}
 
-	private Panel createConversionPanel() {
+	private Panel getConversionPanel() {
 		Panel conversionPanel = new Panel();
 		conversionPanel.setLayout(new GridLayout(2,1));
 		
-		conversionPanel.add(createConversionHeader());
-		conversionPanel.add(createConversionButtons());
+		conversionPanel.add(getConversionHeader());
+		conversionPanel.add(getConversionButtons());
 		
 		return conversionPanel;
 	}
 
-	private Panel createConversionButtons() {
-		Panel conversionButtons = new Panel();		
-		JButton intencityBasedTransformation = new JButton("Intensitätsbasierte Konvertierung");
-		JButton commonTransformation = new JButton("Übliche Konvertierung");
-		conversionButtons.add(intencityBasedTransformation);
-		conversionButtons.add(commonTransformation);
-		return conversionButtons;
-	}
-
-	private Label createConversionHeader() {
+	private Label getConversionHeader() {
 		Label conversionHeader = new Label("Zu Grauwertbild konvertieren:");
 		conversionHeader.setAlignment(Label.CENTER);
 		return conversionHeader;
 	}
 	
-	private Panel createStatisticsPanel() {
+	private Panel getConversionButtons() {
+		Panel conversionButtons = new Panel();
+		conversionButtons.add(getIntencityBasedConversionButton());
+		conversionButtons.add(getCommonTransformationButton());
+		return conversionButtons;
+	}
+
+	private JButton getIntencityBasedConversionButton() {
+		JButton intencityBasedTransformation = new JButton("Intensitätsbasierte Konvertierung");
+		intencityBasedTransformation.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Add IntencityBasedTransformation
+				
+			}
+		});
+		return intencityBasedTransformation;
+	}
+	
+	private JButton getCommonTransformationButton() {
+		JButton commonTransformation = new JButton("Übliche Konvertierung");
+		commonTransformation.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Add CommonTransformation
+				
+			}
+		});
+		return commonTransformation;
+	}
+	
+	
+	private Panel getStatisticsPanel() {
 		Panel statisticsPanel = new Panel();
 		statisticsPanel.setLayout(new GridLayout(2,1));
 		
-		statisticsPanel.add(createStatisticsHeader());
-		JButton histogramCalculation = new JButton("Berechne Histogramm");
-		statisticsPanel.add(histogramCalculation);
+		statisticsPanel.add(getStatisticsHeader());
+		statisticsPanel.add(getStatisticsCalculationButton());
 		
 		return statisticsPanel;
 	}
 
-	private Label createStatisticsHeader() {
+	private Label getStatisticsHeader() {
 		Label statisticsHeader = new Label("Statistik generieren:");
 		statisticsHeader.setAlignment(Label.CENTER);
 		return statisticsHeader;
-	}	
+	}
+	
+	private JButton getStatisticsCalculationButton() {
+		JButton histogramCalculation = new JButton("Berechne Histogramm");
+		histogramCalculation.addActionListener(e -> new StatisticsDialog(ip).show(););
+		return histogramCalculation;
+	}
+	
 
-	private Panel createNoicePanel() {
+	private Panel getNoicePanel() {
 		Panel noicePanel = new Panel();
 		noicePanel.setLayout(new GridLayout(2, 1));
 		
-		noicePanel.add(createNoiceHeader());
-		noicePanel.add(createNoiceButtons());
+		noicePanel.add(getNoiceHeader());
+		noicePanel.add(getNoiceButtons());
 		
 		return noicePanel;
 	}	
 
-	private Label createNoiceHeader() {
+	private Label getNoiceHeader() {
 		Label noiceHeader = new Label("Rauschen hinzufügen:");
 		noiceHeader.setAlignment(Label.CENTER);
 		return noiceHeader;
 	}
 
-	private Panel createNoiceButtons() {
-		Panel noiceButtons = new Panel();	
-		JButton saltAndPepperNoiceButton = new JButton("Salt-And-Pepper Rauschen");
-		JButton gausschenNoiceButton = new JButton("Gaussches Rauschen");
-		noiceButtons.add(gausschenNoiceButton);
-		noiceButtons.add(saltAndPepperNoiceButton);
+	private Panel getNoiceButtons() {
+		Panel noiceButtons = new Panel();
+		noiceButtons.add(getGausschenNoiseButton());
+		noiceButtons.add(getSaltAndPepperNoiceButton());
 		return noiceButtons;
+	}
+
+	private JButton getGausschenNoiseButton() {
+		JButton gausschenNoiceButton = new JButton("Gaussches Rauschen");
+		gausschenNoiceButton.addActionListener(e -> Noise.addGausschenNoise(ip, 1));
+		return gausschenNoiceButton;
+	}
+
+	private JButton getSaltAndPepperNoiceButton() {
+		JButton saltAndPepperNoiceButton = new JButton("Salt-And-Pepper Rauschen");
+		saltAndPepperNoiceButton.addActionListener(e -> Noise.addSaltAndPepperNoise(ip, 1));
+		return saltAndPepperNoiceButton;
 	}
 }

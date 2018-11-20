@@ -19,7 +19,7 @@ public class RgbToGrayscale_PlugIn implements PlugInFilter {
 	
 	@Override
 	public void run(ImageProcessor ip) {
-		MainDialog dialog = new MainDialog();
+		MainDialog dialog = new MainDialog(ip);
 	}
 
 	@Override
