@@ -21,7 +21,6 @@ public class Noise {
 	}
 	
 	public static void addSaltAndPepperNoise(ImageProcessor ip, double percent) {
-		SaltAndPepper filter = new SaltAndPepper();
-		filter.add(ip, percent);
+		new SaltAndPepper().run(ip);
 	}
 }

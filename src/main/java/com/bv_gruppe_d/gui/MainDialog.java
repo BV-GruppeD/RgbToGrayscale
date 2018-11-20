@@ -146,7 +146,7 @@ public class MainDialog extends UserDialog {
 
 	private JButton getGausschenNoiseButton() {
 		JButton gausschenNoiceButton = new JButton("Gaussches Rauschen");
-		gausschenNoiceButton.addActionListener(e -> {Noise.addGausschenNoise(imageProcessor, 1); dialog.repaint();});
+		gausschenNoiceButton.addActionListener(e -> {Noise.addGausschenNoise(imageProcessor, 25); dialog.repaint();});
 		return gausschenNoiceButton;
 	}
 
