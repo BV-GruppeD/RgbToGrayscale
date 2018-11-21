@@ -18,7 +18,7 @@ class CalculateStatisticsListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Histogram histogram = Histogram.calculate(imageProcessor);
+		Histogram histogram = new Histogram(imageProcessor);
 		
 		ResultsTable table = ResultsTable.getResultsTable();
 		table.incrementCounter();

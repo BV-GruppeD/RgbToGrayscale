@@ -1,17 +1,23 @@
 package com.bv_gruppe_d.gui;
 
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.BorderLayout;
 import java.awt.Dialog.ModalityType;
+import java.awt.Dimension;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import com.bv_gruppe_d.calculations.Noise;
 
+import darrylbu.icon.StretchIcon;
 import ij.ImagePlus;
 import ij.gui.GenericDialog;
 import ij.process.ImageProcessor;
@@ -19,15 +25,15 @@ import ij.process.ImageProcessor;
 public class MainDialog extends UserDialog {
 	
 	private ImageProcessor imageProcessor;
-	private GenericDialog dialog;
+	private JFrame dialog;
 	
 	
 	public MainDialog(ImageProcessor ip) {
-
-		dialog = new GenericDialog("Bildverarbeitung Projekt 03");
-		dialog.setLayout(new GridLayout(0, 3));
-		
-		dialog.addImage(getImage(ip));
+		dialog = new JFrame("Bildverarbeitung Projekt 03");
+		dialog.setLayout(new GridLayout(1, 0));
+				
+		Image i = getImage(ip).getImage();//.getScaledInstance(640, 640, Image.SCALE_SMOOTH);
+		dialog.add(new JLabel(new StretchIcon(i)));
 		dialog.add(getMainDialogJPanel());
 	}
 
@@ -138,7 +144,7 @@ public class MainDialog extends UserDialog {
 	}
 
 	private JPanel getNoiceButtons() {
-		JPanel noiceButtons = new JPanel();
+		JPanel noiceButtons = new JPanel(new GridLayout(1, 0));
 		noiceButtons.add(getGausschenNoiseButton());
 		noiceButtons.add(getSaltAndPepperNoiceButton());
 		return noiceButtons;
@@ -157,7 +163,7 @@ public class MainDialog extends UserDialog {
 	}
 	
 	public void show() {
-		dialog.setModalityType(ModalityType.MODELESS);
-		dialog.showDialog();
+		dialog.pack();
+		dialog.setVisible(true);
 	}
 }

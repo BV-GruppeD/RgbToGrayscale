@@ -13,7 +13,7 @@ public class Histogram {
 		System.out.println("Warning: I could not test entropy (didnt find a way for IJ to calculate it)");
 		System.out.println("But the rest had the same results as stuff");
 		
-		Histogram h = Histogram.calculate(ip);
+		Histogram h = new Histogram(ip);
 
 		double normalizedSum = 0.0;
 		for (int i = h.getMin(); i <= h.getMax(); ++i) {
@@ -38,7 +38,7 @@ public class Histogram {
 		System.out.println("Entropy: " + h.getEntropy());
 	}
 
-	public static Histogram calculate(ImageProcessor ip) {
+	private static int[] calculate(ImageProcessor ip) {
 		int[] values = new int[256];
 		int w = ip.getWidth(), h = ip.getHeight();
 		for (int x = 0; x < w; ++x) {
@@ -47,10 +47,14 @@ public class Histogram {
 				values[pxl] += 1;
 			}
 		}
-		return new Histogram(values);
+		return values;
+	}
+	
+	public Histogram(ImageProcessor ip) {
+		this(calculate(ip));
 	}
 
-	private Histogram(int[] counts) {
+	public Histogram(int[] counts) {
 		this.count = counts;
 		mode = 0;
 		cumulative = new int[count.length];
