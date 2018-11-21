@@ -5,16 +5,11 @@ import java.awt.Dialog.ModalityType;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
 import com.bv_gruppe_d.calculations.Noise;
 
-import com.bv_gruppe_d.imagej.TransformImage.IntensityBased;
-import com.bv_gruppe_d.imagej.TransformImage.StateOfTheArt;
-import com.bv_gruppe_d.imagej.TransformImage.TransformInterface;
 import ij.ImagePlus;
 import ij.gui.GenericDialog;
 import ij.process.ImageProcessor;
@@ -22,7 +17,6 @@ import ij.process.ImageProcessor;
 public class MainDialog extends UserDialog {
 	
 	private ImageProcessor imageProcessor;
-	private GenericDialog dialog;
 	
 	
 	public MainDialog(ImageProcessor ip) {
@@ -43,64 +37,12 @@ public class MainDialog extends UserDialog {
 
 	private JPanel getMainDialogJPanel() {
 		JPanel topLevelJPanel = new JPanel();
-		topLevelJPanel.setLayout(new GridLayout(3,1));		
+		topLevelJPanel.setLayout(new GridLayout(2,1));		
 		
-		topLevelJPanel.add(getConversionJPanel());
 		topLevelJPanel.add(getStatisticsJPanel());
 		topLevelJPanel.add(getNoiceJPanel());
 		
 		return topLevelJPanel;
-	}
-
-	private JPanel getConversionJPanel() {
-		JPanel conversionJPanel = new JPanel();
-		conversionJPanel.setLayout(new GridLayout(2,1));
-		
-		conversionJPanel.add(getConversionHeader());
-		conversionJPanel.add(getConversionButtons());
-		
-		return conversionJPanel;
-	}
-
-	private JLabel getConversionHeader() {
-		JLabel conversionHeader = new JLabel("Zu Grauwertbild konvertieren:");
-		conversionHeader.setHorizontalAlignment(JLabel.CENTER);
-		return conversionHeader;
-	}
-	
-	private JPanel getConversionButtons() {
-		JPanel conversionButtons = new JPanel();
-		conversionButtons.add(getIntencityBasedConversionButton());
-		conversionButtons.add(getCommonTransformationButton());
-		return conversionButtons;
-	}
-
-	private JButton getIntencityBasedConversionButton() {
-		JButton intencityBasedTransformation = new JButton("Intensitätsbasierte Konvertierung");
-		intencityBasedTransformation.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				TransformInterface intensityBased = new IntensityBased();
-				imageProcessor = intensityBased.transform(imageProcessor);
-				dialog.repaint();
-			}
-		});
-		return intencityBasedTransformation;
-	}
-	
-	private JButton getCommonTransformationButton() {
-		JButton commonTransformation = new JButton("Übliche Konvertierung");
-		commonTransformation.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				TransformInterface stateOfTheArt = new StateOfTheArt();
-				imageProcessor = stateOfTheArt.transform(imageProcessor);
-				dialog.repaint();
-			}
-		});
-		return commonTransformation;
 	}
 	
 	
@@ -160,10 +102,5 @@ public class MainDialog extends UserDialog {
 		JButton saltAndPepperNoiceButton = new JButton("Salt-And-Pepper Rauschen");
 		saltAndPepperNoiceButton.addActionListener(e -> {Noise.addSaltAndPepperNoise(imageProcessor, 1); dialog.repaint();});
 		return saltAndPepperNoiceButton;
-	}
-	
-	public void show() {
-		dialog.setModalityType(ModalityType.MODELESS);
-		dialog.showDialog();
 	}
 }
