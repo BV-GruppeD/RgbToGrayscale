@@ -15,7 +15,7 @@ public class Noise {
 			for (int u = 0; u < w; u++) {
 				float val = ip.getf(u, v);
 				float noise = (float) (rnd.nextGaussian() * s);
-				ip.setf(u, v, val + noise);
+				ip.setf(u, v, Math.min(Math.max(0, val + noise), 255.0f));
 			}
 		}
 	}
