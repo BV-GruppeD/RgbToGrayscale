@@ -12,6 +12,9 @@ import javax.swing.JButton;
 
 import com.bv_gruppe_d.calculations.Noise;
 
+import com.bv_gruppe_d.imagej.TransformImage.IntensityBased;
+import com.bv_gruppe_d.imagej.TransformImage.StateOfTheArt;
+import com.bv_gruppe_d.imagej.TransformImage.TransformInterface;
 import ij.ImagePlus;
 import ij.gui.GenericDialog;
 import ij.process.ImageProcessor;
@@ -78,7 +81,9 @@ public class MainDialog extends UserDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Add IncentiveTransformation
+				TransformInterface intensityBased = new IntensityBased();
+				imageProcessor = intensityBased.transform(imageProcessor);
+				dialog.repaint();
 			}
 		});
 		return intencityBasedTransformation;
@@ -90,8 +95,9 @@ public class MainDialog extends UserDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Add CommonTransformation
-				
+				TransformInterface stateOfTheArt = new StateOfTheArt();
+				imageProcessor = stateOfTheArt.transform(imageProcessor);
+				dialog.repaint();
 			}
 		});
 		return commonTransformation;

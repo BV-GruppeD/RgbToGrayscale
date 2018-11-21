@@ -1,6 +1,8 @@
 package com.bv_gruppe_d.imagej.TransformImage;
 
+import ij.ImagePlus;
 import ij.plugin.filter.PlugInFilter;
+import ij.process.ByteProcessor;
 import ij.process.ImageProcessor;
 
 public class StateOfTheArt implements TransformInterface{
@@ -10,7 +12,7 @@ public class StateOfTheArt implements TransformInterface{
     private double wr = 0.299, wg = 0.587, wb = 0.114;
 
     @Override
-    public void transform(ImageProcessor ip) {
+    public ImageProcessor transform(ImageProcessor ip) {
 
         pixels = (int[]) ip.getPixels();
 
@@ -28,8 +30,9 @@ public class StateOfTheArt implements TransformInterface{
 
         }
 
-
-
+        ByteProcessor bp = ip.convertToByteProcessor(false);
+        ImagePlus imagePlus = new ImagePlus("GrayPic", bp);
+        return imagePlus.getProcessor();
     }
 
 }

@@ -4,6 +4,6 @@ import ij.process.ImageProcessor;
 
 public interface TransformInterface {
 
-    void transform(ImageProcessor ip);
+    ImageProcessor transform(ImageProcessor ip);
 
 }

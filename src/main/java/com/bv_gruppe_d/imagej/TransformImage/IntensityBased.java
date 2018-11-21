@@ -1,5 +1,7 @@
 package com.bv_gruppe_d.imagej.TransformImage;
 
+import com.sun.prism.Image;
+import ij.ImagePlus;
 import ij.process.ByteProcessor;
 import ij.process.ImageProcessor;
 
@@ -13,7 +15,7 @@ public class IntensityBased implements TransformInterface {
     private int c,r,g,b;
 
     @Override
-    public void transform(ImageProcessor ip) {
+    public ImageProcessor transform(ImageProcessor ip) {
 
         pixels = (int[]) ip.getPixels();
 
@@ -32,15 +34,9 @@ public class IntensityBased implements TransformInterface {
             pixels[i] = ((c & 0xff) << 16) | ((c & 0xff) << 8) | c & 0xff;
         }
 
-        /*ByteProcessor bp = new ByteProcessor(ip.getWidth(), ip.getHeight());
-
-        pixels = (int[]) bp.getPixels();
-
-        for (int i = 0; i < graypixels.length; i++) {
-            pixels[i] = graypixels[i];
-        }
-
-        bp.createImage();*/
+        ByteProcessor bp = ip.convertToByteProcessor(false);
+        ImagePlus imagePlus = new ImagePlus("GrayPic", bp);
+        return imagePlus.getProcessor();
 
     }
 }
