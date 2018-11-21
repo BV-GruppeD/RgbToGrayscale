@@ -1,7 +1,6 @@
 package com.bv_gruppe_d.imagej.TransformImage;
 
 import ij.ImagePlus;
-import ij.plugin.filter.PlugInFilter;
 import ij.process.ByteProcessor;
 import ij.process.ImageProcessor;
 

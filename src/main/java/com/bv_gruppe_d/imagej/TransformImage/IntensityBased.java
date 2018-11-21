@@ -1,17 +1,15 @@
 package com.bv_gruppe_d.imagej.TransformImage;
 
-import com.sun.prism.Image;
 import ij.ImagePlus;
 import ij.process.ByteProcessor;
 import ij.process.ImageProcessor;
 
-import java.util.Arrays;
 
 //Whydomath.org ImageCompression
 
 public class IntensityBased implements TransformInterface {
 
-    private int[] pixels,graypixels;
+    private int[] pixels;
     private int c,r,g,b;
 
     @Override
