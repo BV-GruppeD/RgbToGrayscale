@@ -94,13 +94,13 @@ public class MainDialog extends UserDialog {
 
 	private JButton getGausschenNoiseButton() {
 		JButton gausschenNoiceButton = new JButton("Gaussches Rauschen");
-		gausschenNoiceButton.addActionListener(e -> {Noise.addGausschenNoise(imageProcessor, 25); dialog.repaint();});
+		gausschenNoiceButton.addActionListener(e -> {Noise.addGausschenNoise(imageProcessor, 10); dialog.repaint();});
 		return gausschenNoiceButton;
 	}
 
 	private JButton getSaltAndPepperNoiceButton() {
 		JButton saltAndPepperNoiceButton = new JButton("Salt-And-Pepper Rauschen");
-		saltAndPepperNoiceButton.addActionListener(e -> {Noise.addSaltAndPepperNoise(imageProcessor, 1); dialog.repaint();});
+		saltAndPepperNoiceButton.addActionListener(e -> {Noise.addSaltAndPepperNoise(imageProcessor); dialog.repaint();});
 		return saltAndPepperNoiceButton;
 	}
 }
